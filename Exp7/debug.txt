@@ -1,0 +1,1 @@
+6 18 a b c d e f a b 34 a e 12 b a 34 b c 46 b f 19 c b 46 c d 17 c f 25 d c 17 d e 38 d f 25 e a 12 e d 38 e f 26 f b 19 f d 25 f c 25 f e 26
