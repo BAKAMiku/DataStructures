@@ -90,7 +90,7 @@ void print(MGraph G)
                 printf("%2d  ",G.arcs[i][j]);
             else
                 printf("∞  ");
-        }//∞
+        }
         printf("\n");
     }
     printf("\n");
@@ -182,9 +182,9 @@ void dijkstra(MGraph G, int vs )//求图G中从vs顶点到达其余各顶点的�
     int *flag=(int *)malloc(sizeof(int)*G.arcnum);
     // flag[i]=1表示"顶点vs"到"顶点i"的最短路径已成功获取。
 
-    int i,j,k;
+    int i;
     int min;
-    int tmp;
+    int tmp=0;//记录最小值的编号
 
     // 初始化
     for (i = 0; i < G.vexnum; i++)
@@ -199,14 +199,33 @@ void dijkstra(MGraph G, int vs )//求图G中从vs顶点到达其余各顶点的�
     dist[vs] = 0;
 
     /*请在此处补充代码实现dijkstra算法*/
-
-
+    //找最小值
+    for(i=0;i<G.vexnum;i++){
+        int j;
+        min=INFINITY;
+        for(j=0;j<G.vexnum;j++){
+            if(flag[j]!=1&&dist[j]<min){
+                tmp=j;//记录最小值编号
+                min=dist[j];//记录最小值
+            }
+        }
+        if(min==INFINITY)
+            goto a;
+        flag[tmp]=1;
+        for(j=0;j<G.vexnum;j++){
+            if(flag[j]!=1&&(G.arcs[tmp][j]+dist[tmp]<dist[j])&&G.arcs[tmp][j]!=INFINITY){
+                dist[j]=dist[tmp]+G.arcs[tmp][j];
+                prev[j]=tmp;
+            }
+        }
+    }
     // 打印dijkstra最短路径的结果
+    a:
     printf("dijkstra(%c): \n", G.vexs[vs]);
     for (i = 0; i < G.vexnum; i++)
         printf("  shortest(%c, %c)=%d\n", G.vexs[vs], G.vexs[i], dist[i]);
-}
 
+}
 
 int main(){
     MGraph mg;
@@ -214,6 +233,7 @@ int main(){
     print(mg);
     DFSTraverse(mg);
     BFSTraverse(mg);
+    dijkstra( mg, 0 );
     return 0;
 
 }
